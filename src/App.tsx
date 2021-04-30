@@ -1,8 +1,9 @@
-import {FormControl, TextField} from '@material-ui/core'
+import {FormControl, List, TextField} from '@material-ui/core'
 import React, {useState, useEffect} from 'react'
 import './App.css'
 import { db } from './firebase'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
+import TaskItem from './TaskItem'
 
 const App: React.VFC = () => {
   const [tasks, setTasks] = useState([{id: '', title: ''}])
@@ -16,7 +17,7 @@ const App: React.VFC = () => {
     return () => unSubscribe()
   },[])
 
-  const createTask = (e: React.MouseEventHandler<HTMLButtonElement>) => {
+  const createTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     db.collection('tasks').add({title: inputTask})
     setInputTask('')
   }
@@ -36,7 +37,11 @@ const App: React.VFC = () => {
       <button disabled={!inputTask} onClick={createTask}>
         <AddToPhotosIcon />
       </button>
-      {tasks.map((task) => <h3 key={task.id}>{task.title}</h3>)}
+      <List>
+        {tasks.map((task) => (
+          <TaskItem key={task.id} id={task.id} title={task.title} />
+        ))}
+      </List>
     </div>
   )
 }
