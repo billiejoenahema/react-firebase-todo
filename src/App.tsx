@@ -1,24 +1,24 @@
-import {FormControl, List, TextField} from '@material-ui/core'
-import React, {useState, useEffect} from 'react'
+import { FormControl, List, TextField } from '@material-ui/core'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import { db } from './firebase'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import TaskItem from './TaskItem'
 
 const App: React.VFC = () => {
-  const [tasks, setTasks] = useState([{id: '', title: ''}])
+  const [tasks, setTasks] = useState([{ id: '', title: '' }])
   const [inputTask, setInputTask] = useState('')
   useEffect(() => {
     const unSubscribe = db.collection('tasks').onSnapshot((snapshot) => {
       setTasks(
-        snapshot.docs.map((doc) => ({id: doc.id, title: doc.data().title}))
+        snapshot.docs.map((doc) => ({ id: doc.id, title: doc.data().title }))
       )
     })
     return () => unSubscribe()
-  },[])
+  }, [])
 
   const createTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-    db.collection('tasks').add({title: inputTask})
+    db.collection('tasks').add({ title: inputTask })
     setInputTask('')
   }
 
