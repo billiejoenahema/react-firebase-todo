@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles({
   field: {
     marginTop: 30,
-    width: 20,
+    marginBottom: 20,
   },
   list: {
     margin: 'auto',
