@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styles from './taskItem.module.css'
-import * as firebase from 'firebase/app'
 import { ListItem, TextField, Grid } from '@material-ui/core'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined'
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined'
