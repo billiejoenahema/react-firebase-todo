@@ -10,4 +10,5 @@
 
 .login__root span {
   cursor: pointer;
+  user-select: none;
 }
