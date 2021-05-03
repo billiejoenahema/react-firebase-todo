@@ -5,6 +5,8 @@ import { db } from './firebase'
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos'
 import TaskItem from './TaskItem'
 import { makeStyles } from '@material-ui/styles'
+import { auth } from './firebase'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 const useStyles = makeStyles({
   field: {
@@ -17,10 +19,17 @@ const useStyles = makeStyles({
   },
 })
 
-const App: React.VFC = () => {
+const App: React.VFC = (props: any) => {
   const [tasks, setTasks] = useState([{ id: '', title: '' }])
   const [inputTask, setInputTask] = useState('')
   const classes = useStyles()
+
+  useEffect(() => {
+    const unSubscribe = auth.onAuthStateChanged((user) => {
+      !user && props.history.push('login')
+    })
+    return () => unSubscribe()
+  })
 
   useEffect(() => {
     const unSubscribe = db.collection('tasks').onSnapshot((snapshot) => {
@@ -39,6 +48,19 @@ const App: React.VFC = () => {
   return (
     <div className={styles.app__root}>
       <h1>Todo App by React/Firebase</h1>
+      <button className={styles.app__logout}
+        onClick={
+          async () => {
+            try {
+              await auth.signOut()
+              props.history.push('login')
+            } catch (error) {
+              alert(error.message)
+            }
+          }
+        }>
+        <ExitToAppIcon />
+      </button>
       <br />
       <FormControl>
         <TextField

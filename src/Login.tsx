@@ -9,9 +9,10 @@ const Login: React.VFC = (props: any) => {
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    const unSubscribe = auth.onAuthStateChanged((user) => {
       user && props.history.push('/')
     })
+    return () => unSubscribe()
   }, [props.history])
 
   return (
